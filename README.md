@@ -3,8 +3,11 @@ Librairie updated for correct lot of bug of ISRAM with ESP8266 and compatible wi
 exemple of platformio.ini 
 
 [env:d1_mini]
+
 platform = espressif8266
+
 board = d1_mini
+
 framework = arduino
 
 monitor_speed = 115200
