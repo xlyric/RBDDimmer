@@ -136,7 +136,7 @@ void dimmerLamp::toggleSettings(int minValue, int maxValue)
 	toggleReload = 50;
 }
  
-void isr_ext()
+void IRAM_ATTR isr_ext()
 {
 	for (int i = 0; i < current_dim; i++ ) 
 		if (dimState[i] == ON) 
@@ -147,7 +147,7 @@ void isr_ext()
 
 
 static int k;
-void ICACHE_RAM_ATTR onTimerISR()
+void IRAM_ATTR onTimerISR()
 {	
 	
 	toggleCounter++;
