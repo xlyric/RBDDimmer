@@ -1,4 +1,19 @@
-Librairie updated for correct lot of bug of ISRAM
+Librairie updated for correct lot of bug of ISRAM with ESP8266 and compatible with VS 
+
+exemple of platformio.ini 
+
+[env:d1_mini]
+platform = espressif8266
+board = d1_mini
+framework = arduino
+
+monitor_speed = 115200
+
+lib_deps = https://github.com/xlyric/RBDDimmer
+
+
+
+----------------------
 
 <table style="border-collapse: separate;
   border-spacing: 0;
