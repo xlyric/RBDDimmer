@@ -186,7 +186,7 @@ void IRAM_ATTR onTimerISR()
 			/*****
 			 * DEFAULT DIMMING MODE (NOT TOGGLE)
 			 *****/
-			if (dimCounter[k] >= dimPulseBegin[k] && dimPulseBegin[k] != 100) //correction to avoid transient state and get a clean "Off" state
+			if (dimCounter[k] >= dimPulseBegin[k] ) //correction to avoid transient state and get a clean "Off" state
 			{
 				digitalWrite(dimOutPin[k], HIGH);	
 			}
