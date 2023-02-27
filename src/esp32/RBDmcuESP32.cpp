@@ -3,7 +3,8 @@
 #include "RBDmcuESP32.h"
 
 
-int pulseWidth = 1;
+//int pulseWidth = 1;
+int pulseWidth = 10;
 volatile int current_dim = 0;
 int all_dim = 3;
 int rise_fall = true;
@@ -55,7 +56,8 @@ void dimmerLamp::timer_init(void)
 	timerAttachInterrupt(timer, &onTimerISR, true);
 	// Set alarm to call onTimer function every second (value in microseconds).
   	// Repeat the alarm (third parameter)
-  	timerAlarmWrite(timer, 30, true);
+  	//timerAlarmWrite(timer, 30, true);
+	timerAlarmWrite(timer, 32, true);
   	// Start an alarm
   	timerAlarmEnable(timer);
 }
@@ -64,7 +66,7 @@ void dimmerLamp::ext_int_init(void)
 {
 	int inPin = dimZCPin[this->current_num];
 	pinMode(inPin, INPUT_PULLUP);
-    attachInterrupt(inPin, isr_ext, RISING);
+    attachInterrupt(digitalPinToInterrupt(inPin), isr_ext, RISING);
 }
 
 void dimmerLamp::begin(DIMMER_MODE_typedef DIMMER_MODE, ON_OFF_typedef ON_OFF)
@@ -189,8 +191,10 @@ void IRAM_ATTR onTimerISR()
 			if (dimCounter[k] >= dimPulseBegin[k] && dimPulseBegin[k] != 100) //correction to avoid transient state and get a clean "Off" state
 			{
 				digitalWrite(dimOutPin[k], HIGH);	
+			} else  {
+				digitalWrite(dimOutPin[k], LOW);
 			}
-
+			
 			if (dimCounter[k] >=  (dimPulseBegin[k] + pulseWidth) )
 			{
 				digitalWrite(dimOutPin[k], LOW);

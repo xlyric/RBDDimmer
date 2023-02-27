@@ -8,7 +8,7 @@ volatile int current_dim = 0;
 int all_dim = 3;
 int rise_fall = true;
 char user_zero_cross = '0';
-int timeoutPin = 435; // 80us
+5int timeoutPin = 500; // 80us //435 
 int extIntPin = 2; //z-c
 
 static int toggleCounter = 0;
@@ -45,12 +45,13 @@ dimmerLamp::dimmerLamp(int user_dimmer_pin, int zc_dimmer_pin):
 	togMin[current_dim-1] = 0;
 	togMax[current_dim-1] = 1;
 	pinMode(user_dimmer_pin, OUTPUT);
+
 }
 
 void dimmerLamp::timer_init(void)
 {
 	timer1_attachInterrupt(onTimerISR);
-	timer1_enable(TIM_DIV16, TIM_EDGE, TIM_SINGLE);
+	timer1_enable(TIM_DIV16, TIM_EDGE, TIM_LOOP);
 	timer1_write(timeoutPin); //100 us
 }
 
@@ -58,7 +59,7 @@ void dimmerLamp::ext_int_init(void)
 {
 	int inPin = dimZCPin[this->current_num];
 	pinMode(inPin, INPUT_PULLUP);
-	attachInterrupt(inPin, isr_ext, FALLING);
+	attachInterrupt(digitalPinToInterrupt(inPin), isr_ext, FALLING);
 }
 
 
@@ -136,18 +137,22 @@ void dimmerLamp::toggleSettings(int minValue, int maxValue)
 	toggleReload = 50;
 }
  
-void IRAM_ATTR isr_ext()
+ 
+ void ICACHE_RAM_ATTR isr_ext()
 {
 	for (int i = 0; i < current_dim; i++ ) 
 		if (dimState[i] == ON) 
 		{
 			zeroCross[i] = 1;
+      dimCounter[i] = 0; //protection: in case zerocross isr fire before digitalWrite high, we ensure that no pulse will happen just after zerocross by resetting counter
+      
+      
 		}
 }
 
 
 static int k;
-void IRAM_ATTR onTimerISR()
+void ICACHE_RAM_ATTR onTimerISR()
 {	
 	
 	toggleCounter++;
@@ -156,6 +161,7 @@ void IRAM_ATTR onTimerISR()
 		if (zeroCross[k] == 1 )
 		{
 			dimCounter[k]++;
+
 
 			if (dimMode[k] == TOGGLE_MODE)
 			{
@@ -182,12 +188,12 @@ void IRAM_ATTR onTimerISR()
 			/*****
 			 * DEFAULT DIMMING MODE (NOT TOGGLE)
 			 *****/
-			if (dimCounter[k] >= dimPulseBegin[k] && dimPulseBegin[k] != 100) //correction to avoid transient state and get a clean "Off" state
+			if (dimCounter[k] == dimPulseBegin[k]-2 && dimPulseBegin[k] != 100) //correction to avoid transient state and get a clean "Off" state, shift the dimPulseBegin to correct zero cross timing
 			{
 				digitalWrite(dimOutPin[k], HIGH);	
 			}
 
-			if (dimCounter[k] >=  (dimPulseBegin[k] + pulseWidth) )
+			if (dimCounter[k] >=  (dimPulseBegin[k]-2 + pulseWidth) )
 			{
 				digitalWrite(dimOutPin[k], LOW);
 				zeroCross[k] = 0;
@@ -196,7 +202,7 @@ void IRAM_ATTR onTimerISR()
 		}
 	}
 	if (toggleCounter >= toggleReload) toggleCounter = 1;
-	timer1_write(timeoutPin);	
+	//timer1_write(timeoutPin);	
 	
 }
 
