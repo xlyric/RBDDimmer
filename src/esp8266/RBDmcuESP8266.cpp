@@ -8,7 +8,7 @@ volatile int current_dim = 0;
 int all_dim = 3;
 int rise_fall = true;
 char user_zero_cross = '0';
-int timeoutPin = 500; // 80us //435 
+int timeoutPin = 435; // 80us //435 
 int extIntPin = 2; //z-c
 
 static int toggleCounter = 0;
