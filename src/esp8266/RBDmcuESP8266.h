@@ -23,6 +23,6 @@ static const uint8_t powerBuf[] = {
 #define ALL_DIMMERS 20
 
 void isr_ext(void);
-void ICACHE_RAM_ATTR onTimerISR();
+void IRAM_ATTR onTimerISR();
 
 #endif
