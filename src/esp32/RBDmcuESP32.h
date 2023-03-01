@@ -7,7 +7,14 @@
 #include <esp32-hal-gpio.h>
 #include "rom/ets_sys.h"
 #include "esp_attr.h"
+
+// ESP_IDF_VERSION_MAJOR is defined in ESP-IDF v3.3 or later
+#if defined(ESP_IDF_VERSION_MAJOR) && ESP_IDF_VERSION_MAJOR > 3
+#include "esp_intr_alloc.h"
+#else
 #include "esp_intr.h"
+#endif
+
 #include "rom/gpio.h"
 #include "soc/gpio_reg.h"
 #include "soc/io_mux_reg.h"
