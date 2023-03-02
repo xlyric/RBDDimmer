@@ -37,7 +37,7 @@ typedef enum
     ON = true
 } ON_OFF_typedef;
 
-#ifndef 
+#ifndef ALL_DIMMERS
 #define ALL_DIMMERS 30
 #endif
 
