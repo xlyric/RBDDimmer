@@ -7,12 +7,16 @@
 	#include "avr/RBDmcuAVR.h"
 #elif defined(ARDUINO_ARCH_ESP32)
 	#include "esp32/RBDmcuESP32.h"
+    #define ALL_DIMMERS 50
 #elif defined(ARDUINO_ARCH_ESP8266)
 	#include "esp8266/RBDmcuESP8266.h"
+    #define ALL_DIMMERS 20
 #elif defined(ARDUINO_ARCH_SAMD)
 	#include "samd/RBDmcuSAMD21.h"
+    #define ALL_DIMMERS 80
 #elif defined(ARDUINO_ARCH_SAM)
 	#include "sam/RBDmcuSAM.h"
+    #define ALL_DIMMERS 80
 #elif defined(ARDUINO_ARCH_STM32F1)
 	#include "stm32duino/STM32F1/RBDmcuSTM32F1.h"
 #elif defined(ARDUINO_ARCH_STM32F4)
@@ -33,7 +37,9 @@ typedef enum
     ON = true
 } ON_OFF_typedef;
 
+#ifndef 
 #define ALL_DIMMERS 30
+#endif
 
 class dimmerLamp 
 {         
