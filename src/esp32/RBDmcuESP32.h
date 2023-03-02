@@ -21,8 +21,6 @@
 #include "soc/gpio_struct.h"
 #include "soc/rtc_io_reg.h"
 
-#define ALL_DIMMERS 50
-
 static const uint8_t powerBuf[] = {
     100,100,100,94,93,93,92,92,92,91,
     91,91,90,89,88,87,86,85,85,84,83,
