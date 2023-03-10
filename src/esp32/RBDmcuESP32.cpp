@@ -3,8 +3,8 @@
 #include "RBDmcuESP32.h"
 
 
-//int pulseWidth = 1;
-int pulseWidth = 10;
+int pulseWidth = 1;
+//int pulseWidth = 10;
 volatile int current_dim = 0;
 int all_dim = 3;
 int rise_fall = true;
