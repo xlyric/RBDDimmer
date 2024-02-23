@@ -184,6 +184,7 @@ This library can simplify user code with following functions:
 
     3. Function setPower sets dimming value from 0 to 100%
         Example: dimmer.setPower(90);
+        The value can be a float and the precision is improved for ESP8266 ( up to 400 steps )
 
     4. Function getPower to display current dimming value
         Example: Serial.print(dimmer.getPower()); Result 0~100 int
