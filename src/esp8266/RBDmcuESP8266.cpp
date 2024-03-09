@@ -8,7 +8,7 @@ volatile int current_dim = 0;
 int all_dim = 3;
 int rise_fall = true;
 char user_zero_cross = '0';
-int timeoutPin = 100; // 80us //435 
+int timeoutPin = 435; // 80us //435 
 int facteur = 4 ;
 int extIntPin = 2; //z-c
 
@@ -72,31 +72,14 @@ void dimmerLamp::begin(DIMMER_MODE_typedef DIMMER_MODE, ON_OFF_typedef ON_OFF)
 	ext_int_init();	
 }
 
-void dimmerLamp::setPower(float power)
+void dimmerLamp::setPower(int power)
 {	
-
 	if (power >= 99) 
 	{
 		power = 99;
 	}
-
-	int intPower = int(power);
-    float decimalPart = power - intPower;
-    
-	// Trouver les deux valeurs les plus proches de power
-    uint8_t lowerIndex = intPower;
-    uint8_t upperIndex = intPower + 1;
-
-    // Vérifier les limites du tableau
-    if (upperIndex >= sizeof(powerBuf)) {
-        upperIndex = sizeof(powerBuf) - 1;
-    }
-
-	// Interpoler la valeur
-	float interpolatedValue = powerBuf[lowerIndex] + (powerBuf[upperIndex] - powerBuf[lowerIndex]) * decimalPart;		
-
 	dimPower[this->current_num] = power;
-	dimPulseBegin[this->current_num] = interpolatedValue*facteur;
+	dimPulseBegin[this->current_num] = powerBuf[power];
 	
 	delay(1);
 }

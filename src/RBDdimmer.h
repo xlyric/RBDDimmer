@@ -67,7 +67,7 @@ class dimmerLamp
 		dimmerLamp(int user_dimmer_pin);
 #endif
         void begin(DIMMER_MODE_typedef DIMMER_MODE, ON_OFF_typedef ON_OFF);
-        void setPower(float power);
+        void setPower(int power);
 		int  getPower(void);
 		void setState(ON_OFF_typedef ON_OFF);
         bool getState(void);
