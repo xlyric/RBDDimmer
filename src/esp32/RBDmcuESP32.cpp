@@ -79,13 +79,15 @@ void dimmerLamp::begin(DIMMER_MODE_typedef DIMMER_MODE, ON_OFF_typedef ON_OFF)
 
 void dimmerLamp::setPower(int power)
 {	
+	pulseWidth = 1 ;
 	if (power >= 99) 
 	{
 		power = 99;
+		pulseWidth = 50;
 	}
 	dimPower[this->current_num] = power;
 	dimPulseBegin[this->current_num] = powerBuf[power];
-	
+	pulseWidth =int(power/2);
 	delay(1);
 }
 
